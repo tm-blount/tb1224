@@ -18,12 +18,14 @@ public class RentalAgreementController {
     public void displayAgreement(
             @PathVariable("toolId") int toolId,
             @RequestParam("discount") int discount,
-            @RequestParam("numDaysToRent") int numDaysToRent
+            @RequestParam("numDaysToRent") int numDaysToRent,
+            @RequestParam("checkoutDat") String checkoutDate
     ) {
         RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
                 discount,
                 numDaysToRent,
-                toolId
+                toolId,
+                checkoutDate
         );
 
         System.out.println(record);
