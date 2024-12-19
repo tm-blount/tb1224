@@ -26,11 +26,6 @@ public record RentalPricingRecord(
     }
 
     @Override
-    public double discountPercent() {
-        return Double.parseDouble(formatMoney(discountPercent));
-    }
-
-    @Override
     public double dailyRentalPrice() {
         return Double.parseDouble(formatMoney(dailyRentalPrice));
     }
