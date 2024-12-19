@@ -10,7 +10,7 @@ public record RentAgreementRecord(
         double preDiscountCharge,
         double dailyRentalPrice,
         int rentalDayCount,
-        double discountPercent,
+        int discountPercent,
         int chargeableDays,
         LocalDateTime checkOutDate,
         LocalDateTime dueDate

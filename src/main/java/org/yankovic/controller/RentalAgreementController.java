@@ -17,7 +17,7 @@ public class RentalAgreementController {
     @GetMapping("/rental/displayAgreement/{toolId}")
     public void displayAgreement(
             @PathVariable("toolId") int toolId,
-            @RequestParam("discount") double discount,
+            @RequestParam("discount") int discount,
             @RequestParam("numDaysToRent") int numDaysToRent
     ) {
         RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(

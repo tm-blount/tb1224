@@ -16,7 +16,7 @@ public class RentAgreementService {
     private ToolRepository toolRepository;
 
     // TODO intercept
-    public RentAgreementRecord createRentalAgreementForTool(double discount, int numDaysToRent, int toolId) {
+    public RentAgreementRecord createRentalAgreementForTool(int discount, int numDaysToRent, int toolId) {
         // Grab the tool, if possible
         Tool toRent = toolRepository.findById(toolId);
 
