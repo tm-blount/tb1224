@@ -32,7 +32,7 @@ public class RequiredTestSuite {
         Mockito.when(toolRepository.findById(Mockito.anyInt())).thenReturn(
                 mockLADWTool()
         );
-        Mockito.when(pricingCalculatorService.getPricingForRental(Mockito.any(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(
+        Mockito.when(pricingCalculatorService.getPricingForRental(Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.any())).thenReturn(
                 // TODO pricing!
                 new RentalPricingRecord(
                         10,

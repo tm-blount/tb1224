@@ -19,7 +19,7 @@ public class RentalAgreementController {
             @PathVariable("toolId") int toolId,
             @RequestParam("discount") int discount,
             @RequestParam("numDaysToRent") int numDaysToRent,
-            @RequestParam("checkoutDat") String checkoutDate
+            @RequestParam("checkoutDate") String checkoutDate
     ) {
         RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
                 discount,

@@ -6,6 +6,7 @@ import org.yankovic.db.ToolRepository;
 import org.yankovic.db.entities.Tool;
 import org.yankovic.model.RentAgreementRecord;
 import org.yankovic.model.RentalPricingRecord;
+import org.yankovic.utilities.PricingCalculatorUtils;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +24,11 @@ public class RentAgreementService {
         Tool toRent = toolRepository.findById(toolId);
 
         if (toRent != null) {
+            boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
+
             // Calculate the price
             RentalPricingRecord rentalPricingRecord =
-                    pricingCalculatorService.getPricingForRental(toRent, discount, numDaysToRent);
+                    pricingCalculatorService.getPricingForRental(toRent, discount, numDaysToRent, checkoutDate);
 
             // Create the RentAgreement
             return new RentAgreementRecord(
