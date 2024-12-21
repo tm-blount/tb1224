@@ -40,12 +40,9 @@ public final class PricingCalculatorUtils {
         LocalDate laborDate = formatDateString(date);
 
         if (laborDate.getMonthValue() != 9) {
-            System.out.println("\n\n\n\nnot Labor day!\n\n\n\n");
             return false;
         }
         else {
-            System.out.println("\n\n\n\nLabor day!\n\n\n\n");
-            //LocalDate firstMonday = laborDate.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
             LocalDate firstMonday = java.time.LocalDate.of(laborDate.getYear(), 9, 1)
                     .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
 
