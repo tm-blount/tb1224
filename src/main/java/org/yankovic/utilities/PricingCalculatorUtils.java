@@ -37,7 +37,7 @@ public final class PricingCalculatorUtils {
     public static boolean isLaborDay(String date) {
         // TODO error support
         // First, try to parse the String date into a LocalDate
-        LocalDate laborDate = LocalDate.parse(date, formatter);
+        LocalDate laborDate = formatDateString(date);
 
         if (laborDate.getMonthValue() != 9) {
             System.out.println("\n\n\n\nnot Labor day!\n\n\n\n");
@@ -46,7 +46,7 @@ public final class PricingCalculatorUtils {
         else {
             System.out.println("\n\n\n\nLabor day!\n\n\n\n");
             //LocalDate firstMonday = laborDate.with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
-            LocalDate firstMonday = LocalDate.of(laborDate.getYear(), 9, 1)
+            LocalDate firstMonday = java.time.LocalDate.of(laborDate.getYear(), 9, 1)
                     .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
 
             return laborDate.equals(firstMonday);
@@ -55,6 +55,11 @@ public final class PricingCalculatorUtils {
 
     // TODO
     public static int numberOfChargeableDays() {
+        return 0;
+    }
+
+    public static LocalDate formatDateString(String date) {
+        return LocalDate.parse(date, formatter);
     }
 
     public int getNumberOfChargeableDays() {
@@ -75,10 +80,5 @@ public final class PricingCalculatorUtils {
      */
     public DayOfWeek getIndependenceDay(String date) {
         return DayOfWeek.FRIDAY;
-    }
-
-    // TODO
-    private LocalDate formatDateString() {
-        return LocalDate.now();
     }
 }
