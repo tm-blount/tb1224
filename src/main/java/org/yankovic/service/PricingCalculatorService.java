@@ -18,8 +18,7 @@ import java.time.LocalDate;
 public class PricingCalculatorService {
     public RentalPricingRecord getPricingForRental(Tool tool, int discount, int numDaysToRent, String checkoutDate) {
         boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
-        // TODO: implement
-        boolean isIndependenceDay = false;
+        boolean independenceDay = PricingCalculatorUtils.isIndependenceDayOnWeekend(checkoutDate);
 
         // Get checkout date in LocalDate format for ranging further down
         LocalDate formattedCheckoutDate = PricingCalculatorUtils.formatDateString(checkoutDate);
@@ -32,7 +31,7 @@ public class PricingCalculatorService {
         // Reduce chargeable days when it's a holiday and the tool type
         // is holiday chargeable
         if (!toolType.isHolidayCharge() &&
-                (isLaborDay || isIndependenceDay)) {
+                (isLaborDay || independenceDay)) {
             chargeableDays--;
         }
 

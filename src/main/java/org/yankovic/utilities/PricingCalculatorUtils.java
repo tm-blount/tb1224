@@ -2,6 +2,7 @@ package org.yankovic.utilities;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.EnumSet;
@@ -50,32 +51,23 @@ public final class PricingCalculatorUtils {
         }
     }
 
-    // TODO
-    public static int numberOfChargeableDays() {
-        return 0;
+    /**
+     * @param date the date to consider
+     * @return boolean if Jul 4th is observed on a weekend
+     */
+    public static boolean isIndependenceDayOnWeekend(String date) {
+        LocalDate inputDate = formatDateString(date);
+
+        // Is it actually Jul 4th?
+        LocalDate july4th = LocalDate.of(inputDate.getYear(), Month.JULY, 4);
+
+        // Get dof for Jul 4th
+        DayOfWeek dayOfWeek = july4th.getDayOfWeek();
+
+        return (dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY));
     }
 
     public static LocalDate formatDateString(String date) {
         return LocalDate.parse(date, formatter);
-    }
-
-    public int getNumberOfChargeableDays() {
-        return 0;
-    }
-
-    /**
-     * If Jul 4th (Independence Day) on the given date occurs on Saturday, return
-     * Friday. If Sunday, return Monday.
-     * <br />
-     * If not on the weekend, return the current DayOfWeek.
-     * <br />
-     * This means that tools with holiday charges are charged but
-     * weekend charges are skipped.
-     *
-     * @param date the date to consider
-     * @return DayOfWeek when holiday is observed
-     */
-    public DayOfWeek getIndependenceDay(String date) {
-        return DayOfWeek.FRIDAY;
     }
 }
