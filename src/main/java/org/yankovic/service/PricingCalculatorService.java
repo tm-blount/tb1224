@@ -14,13 +14,12 @@ import java.time.LocalDate;
  * The pricing calculator service that calculates all the required
  * numbers for the ${RentAgreementRecord}.
  */
-
 @Service("pricingCalculatorService")
 public class PricingCalculatorService {
     public RentalPricingRecord getPricingForRental(Tool tool, int discount, int numDaysToRent, String checkoutDate) {
         boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
         // TODO: implement
-        boolean isIndependenceDay = true;
+        boolean isIndependenceDay = false;
 
         // Get checkout date in LocalDate format for ranging further down
         LocalDate formattedCheckoutDate = PricingCalculatorUtils.formatDateString(checkoutDate);
@@ -30,12 +29,21 @@ public class PricingCalculatorService {
 
         ToolType toolType = tool.getToolType();
 
-        // TODO is startDate.plusDays() inclusive or does it need +1? Pls check.
+        // Reduce chargeable days when it's a holiday and the tool type
+        // is holiday chargeable
+        if (!toolType.isHolidayCharge() &&
+                (isLaborDay || isIndependenceDay)) {
+            chargeableDays--;
+        }
+
+        // Get endDate for this rental because it makes the loop cleaner
+        LocalDate endDate = formattedCheckoutDate.plusDays(numDaysToRent);
+
         // Iterate through all the days to rent and reduce chargeable
         // days according to business rules
         for (LocalDate startDate = formattedCheckoutDate;
-             formattedCheckoutDate.isBefore(startDate.plusDays(numDaysToRent));
-             formattedCheckoutDate = formattedCheckoutDate.plusDays(1)) {
+             startDate.isBefore(endDate);
+             startDate = startDate.plusDays(1)) {
             /*
                  Samples:
 
@@ -61,16 +69,10 @@ public class PricingCalculatorService {
             // Hypothetically there can never be < 0 chargeable days but because
             // we are manipulating them here, it's better to be careful.
             if (chargeableDays > 0) {
+                // TODO do we want to offload the weekend thing to the utils?
                 // If this tool is free on weekends, reduce the chargeable days by up to two
                 if (!toolType.isWeekendCharge() &&
-                        (startDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) || startDate.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-                    chargeableDays--;
-                }
-
-                // Reduce chargeable days when it's a holiday and the tool type has
-                // no holiday charge
-                if (!toolType.isHolidayCharge() &&
-                        (isLaborDay || isIndependenceDay)) {
+                        ((startDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) || startDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))) {
                     chargeableDays--;
                 }
             }
@@ -84,6 +86,7 @@ public class PricingCalculatorService {
             finalTotal = 0;
         }
         else {
+            // TODO fix me(???!)
             finalTotal = finalTotal - (((double) discount / 100) * preDiscountTotal);
         }
 
