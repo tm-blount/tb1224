@@ -1,4 +1,4 @@
-package org.yankovic.errorhandling.validators;
+package org.yankovic.service.validators;
 
 /**
  * Instead of validating, for example, during program flow in the PricingCalculatorService

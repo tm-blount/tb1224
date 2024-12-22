@@ -1,6 +1,4 @@
-package org.yankovic.errorhandling.validators;
-
-import org.yankovic.errorhandling.ErrorCodes;
+package org.yankovic.service.validators;
 
 /**
  * Make this validator an actual class so if there's expansion

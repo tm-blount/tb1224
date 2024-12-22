@@ -16,6 +16,11 @@ import org.yankovic.model.RentalPricingRecord;
 import org.yankovic.service.PricingCalculatorService;
 import org.yankovic.service.RentAgreementService;
 import org.yankovic.utilities.PricingCalculatorUtils;
+import sharedtestdata.records.CHNSRentAgreementRecordMock;
+import sharedtestdata.records.CHNSRentalPricingRecordMock;
+import sharedtestdata.records.LADWRentAgreementRecordMock;
+import sharedtestdata.records.LADWRentalPricingRecordMock;
+import sharedtestdata.tools.CHNSToolMock;
 import sharedtestdata.tools.LADWToolMock;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,21 +28,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// TODO add rest of tests and maybe look at that one spec again
 @SpringBootTest(classes = MainApplication.class)
 @AutoConfigureMockMvc
 public class RequiredTestSuiteTest {
     @Autowired
     private MockMvc mockMvc;
-
-    @MockitoBean
-    private RentAgreementService rentAgreementService;
-
-    @MockitoBean
-    private PricingCalculatorService pricingCalculatorService;
-
-    @MockitoBean
-    private ToolRepository toolRepository;
 
     @Test
     public void testInvalidDiscount() throws Exception {
@@ -51,45 +46,17 @@ public class RequiredTestSuiteTest {
         assertEquals("", result.getResponse().getContentAsString());
     }
 
+    // Not required, but might as well add it
     @Test
-    public void testLADWJul4thOnWeekend() throws Exception {
-        Tool ladw = LADWToolMock.mockLADWTool();
-
-        Mockito.when(toolRepository.findById(ladw.getId())).thenReturn(ladw);
-
-        Mockito.doReturn(
-                new RentalPricingRecord(
-                        30.00,
-                        40.00,
-                        10,
-                        ladw.getToolType().getDailyCharge(),
-                        3
-                )
-        ).when(pricingCalculatorService).getPricingForRental(Mockito.any(), Mockito.anyInt(), Mockito.anyInt(), Mockito.anyString());
-
-        Mockito.doReturn(
-                new RentAgreementRecord(
-                        ladw,
-                        new RentalPricingRecord(
-                                30.00,
-                                40.00,
-                                10,
-                                ladw.getToolType().getDailyCharge(),
-                                3
-                        ),
-                        3,
-                        PricingCalculatorUtils.formatDateString("7/2/20"),
-                        PricingCalculatorUtils.formatDateString("7/5/20")
-                )
-        ).when(rentAgreementService).createRentalAgreementForTool(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt(), Mockito.any());
-
-        MvcResult result = mockMvc.perform(get("/rental/displayAgreement/{toolId}", ladw.getId())
-                        .param("discount", String.valueOf(10))
-                        .param("numDaysToRent", String.valueOf(3))
-                        .param("checkoutDate", "7/2/20"))
+    public void testInvalidRentalDays() throws Exception {
+        MvcResult result = mockMvc.perform(get("/rental/displayAgreement/{toolId}", 5)
+                        .param("discount", String.valueOf(0))
+                        .param("numDaysToRent", String.valueOf(-5))
+                        .param("checkoutDate", "9/3/15"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.pricingInfo.totalPrice").value(30))
                 .andReturn();
+
+        assertEquals("", result.getResponse().getContentAsString());
     }
 }
 

@@ -28,7 +28,7 @@ public class JAKToolMock {
                 new ToolType(
                         2,
                         "Jackhammer",
-                        1.49,
+                        2.99,
                         true,
                         false,
                         false
