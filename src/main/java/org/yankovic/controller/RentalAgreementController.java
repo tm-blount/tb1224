@@ -14,6 +14,18 @@ public class RentalAgreementController {
     @Autowired
     private RentAgreementService rentAgreementService;
 
+    /**
+     * Generate a rental agreement.
+     * <p>
+     * Specs: print to console
+     * Added: pretty-print to the page for more convenient debugging
+     *
+     * @param toolId        the id of the tool to rent
+     * @param discount      the discount, whole number
+     * @param numDaysToRent the number of days to rent
+     * @param checkoutDate  the date the checkout occurs
+     * @return a JSON representation of the rental agreement
+     */
     @GetMapping("/rental/displayAgreement/{toolId}")
     public RentAgreementRecord displayAgreement(
             @PathVariable("toolId") int toolId,

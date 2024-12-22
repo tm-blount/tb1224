@@ -13,12 +13,7 @@ import java.util.Set;
  * "CalendarUtils" or have the calendar methods refactored out,
  * but this is acceptable given the specs.
  * <br />
- * A utility class for dealing with primarily the following:
- * <br />
- * 1. Determine if Jul 4th occurs on a weekend and, if so, the closest day
- * before/after the holiday (Saturday = Friday, Sunday = Monday)
- * 2. Determine if the date in question is Labor Day
- * 3. Calculate the total number of chargeable days
+ * A utility used for various (mainly) pricing-related concerns
  */
 public final class PricingCalculatorUtils {
     private static final Set<DayOfWeek> weekendSet = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
@@ -50,8 +45,8 @@ public final class PricingCalculatorUtils {
         }
     }
 
-    private static boolean isIndependenceDayOnWeekend(LocalDate inputDate) {
-
+    // TODO WHY'D WE HAVE TO THROW THAT DANG TEA IN THE HARBOR
+    public static boolean isIndependenceDayOnWeekend(LocalDate inputDate) {
         // Is it actually Jul 4th?
         LocalDate july4th = LocalDate.of(inputDate.getYear(), Month.JULY, 4);
 

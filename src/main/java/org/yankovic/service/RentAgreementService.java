@@ -16,6 +16,15 @@ public class RentAgreementService {
     @Autowired
     private ToolRepository toolRepository;
 
+    /**
+     * Create a RentAgreementRecord based on input
+     *
+     * @param discount      the discount, whole number
+     * @param numDaysToRent number of days to rent
+     * @param toolId        the id of the tool to rent
+     * @param checkoutDate  the checkout date for the rental
+     * @return a RentAgreementRecord representing all aspects of the rental
+     */
     public RentAgreementRecord createRentalAgreementForTool(int discount, int numDaysToRent, int toolId, String checkoutDate) {
         // Grab the tool, if possible
         Tool toRent = toolRepository.findById(toolId);

@@ -15,6 +15,15 @@ import java.time.LocalDate;
  */
 @Service("pricingCalculatorService")
 public class PricingCalculatorService {
+    /**
+     * Get the RentalPricingRecord for this request.
+     *
+     * @param tool          the Tool being rented
+     * @param discount      the discount, whole number
+     * @param numDaysToRent number of days to rent
+     * @param checkoutDate  the date checked out
+     * @return a RentalPricingRecord representing the financial aspects of the agreement
+     */
     public RentalPricingRecord getPricingForRental(Tool tool, int discount, int numDaysToRent, String checkoutDate) {
         boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
         boolean independenceDay = PricingCalculatorUtils.isIndependenceDay(checkoutDate);
@@ -42,28 +51,7 @@ public class PricingCalculatorService {
         for (LocalDate startDate = formattedCheckoutDate;
              startDate.isBefore(endDate);
              startDate = startDate.plusDays(1)) {
-            /*
-                 Samples:
 
-                   Renting: Tuesday, Wednesday, Thursday
-                   3 chargeable days regardless under current specs
-
-                   Renting: Thursday, Friday, Saturday
-                   3 chargeable days IF tool type has weekend charge,
-                    or if Sat is Jul 4th and there's a holiday charge
-                   2 chargeable days IF tool type has weekend charge,
-                    but it's Jul 4th and there is no holiday charge
-
-                   Renting: Saturday, Sunday, Monday
-                   3 chargeable days IF tool type has weekend charge, and it's not Labor Day
-                    or tool type has no holiday charge
-                   2 chargeable days IF tool type has weekend charge but not
-                    holiday charge, and it's Labor Day
-                   1 chargeable day IF tool type has no weekend charge, but has
-                    holiday charge, and it's Labor Day
-                   0 chargeable days IF tool type has no weekend charge, no
-                    holiday charge, and it's Labor Day
-             */
             // Hypothetically there can never be < 0 chargeable days but because
             // we are manipulating them here, it's better to be careful.
             if (chargeableDays > 0) {
