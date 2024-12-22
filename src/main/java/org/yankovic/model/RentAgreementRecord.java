@@ -7,12 +7,7 @@ import java.time.LocalDate;
 public record RentAgreementRecord(
         Tool toolToRent,
         RentalPricingRecord pricingInfo,
-        double totalPrice,
-        double preDiscountCharge,
-        double dailyRentalPrice,
         int rentalDayCount,
-        int discountPercent,
-        int chargeableDays,
         LocalDate checkOutDate,
         LocalDate dueDate
 ) {
@@ -25,11 +20,11 @@ public record RentAgreementRecord(
                 "Rental days: " + rentalDayCount + "\n" +
                 "Check out date: " + checkOutDate + "\n" +
                 "Due date: " + dueDate + "\n" +
-                "Daily rental charge: " + dailyRentalPrice + "\n" +
-                "Charge days: " + chargeableDays + "\n" +
-                "Pre-discount charge: " + preDiscountCharge + "\n" +
-                "Discount percent: " + discountPercent + "\n" +
+                "Daily rental charge: " + pricingInfo.dailyRentalPrice() + "\n" +
+                "Charge days: " + pricingInfo.chargeableDays() + "\n" +
+                "Pre-discount charge: " + pricingInfo.preDiscountCharge() + "\n" +
+                "Discount percent: " + pricingInfo.discountPercent() + "\n" +
                 "Discount amount: " + pricingInfo.discountAmount() + "\n" +
-                "Final charge: " + totalPrice;
+                "Final charge: " + pricingInfo.totalPrice();
     }
 }

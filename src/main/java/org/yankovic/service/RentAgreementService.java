@@ -29,12 +29,7 @@ public class RentAgreementService {
             return new RentAgreementRecord(
                     toRent,
                     rentalPricingRecord,
-                    rentalPricingRecord.totalPrice(),
-                    rentalPricingRecord.preDiscountCharge(),
-                    rentalPricingRecord.dailyRentalPrice(),
                     numDaysToRent,
-                    discount,
-                    rentalPricingRecord.chargeableDays(),
                     PricingCalculatorUtils.formatDateString(checkoutDate),
                     PricingCalculatorUtils.formatDateString(checkoutDate).plusDays(numDaysToRent)
             );

@@ -77,11 +77,6 @@ public class RequiredTestSuiteTest {
                                 ladw.getToolType().getDailyCharge(),
                                 3
                         ),
-                        30.00,
-                        40.00,
-                        ladw.getToolType().getDailyCharge(),
-                        3,
-                        10,
                         3,
                         PricingCalculatorUtils.formatDateString("7/2/20"),
                         PricingCalculatorUtils.formatDateString("7/5/20")
@@ -93,7 +88,7 @@ public class RequiredTestSuiteTest {
                         .param("numDaysToRent", String.valueOf(3))
                         .param("checkoutDate", "7/2/20"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalPrice").value(30))
+                .andExpect(jsonPath("$.pricingInfo.totalPrice").value(30))
                 .andReturn();
     }
 }
