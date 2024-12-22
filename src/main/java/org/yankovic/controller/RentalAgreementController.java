@@ -7,27 +7,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yankovic.model.RentAgreementRecord;
 import org.yankovic.service.RentAgreementService;
+import org.yankovic.utilities.ValidationUtils;
 
 @RestController
 public class RentalAgreementController {
     @Autowired
     private RentAgreementService rentAgreementService;
 
-    // TODO actually prob intercept here first
     @GetMapping("/rental/displayAgreement/{toolId}")
-    public void displayAgreement(
+    public RentAgreementRecord displayAgreement(
             @PathVariable("toolId") int toolId,
             @RequestParam("discount") int discount,
             @RequestParam("numDaysToRent") int numDaysToRent,
             @RequestParam("checkoutDate") String checkoutDate
     ) {
-        RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
-                discount,
-                numDaysToRent,
-                toolId,
-                checkoutDate
-        );
+        if (ValidationUtils.rentalAgreementIsValid(discount, numDaysToRent)) {
+            RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
+                    discount,
+                    numDaysToRent,
+                    toolId,
+                    checkoutDate
+            );
 
-        System.out.println(record);
+            System.out.println(record);
+
+            return record;
+        }
+
+        return null;
     }
 }

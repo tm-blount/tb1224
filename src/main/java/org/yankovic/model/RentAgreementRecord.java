@@ -2,18 +2,19 @@ package org.yankovic.model;
 
 import org.yankovic.db.entities.Tool;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record RentAgreementRecord(
         Tool toolToRent,
+        RentalPricingRecord pricingInfo,
         double totalPrice,
         double preDiscountCharge,
         double dailyRentalPrice,
         int rentalDayCount,
         int discountPercent,
         int chargeableDays,
-        LocalDateTime checkOutDate,
-        LocalDateTime dueDate
+        LocalDate checkOutDate,
+        LocalDate dueDate
 ) {
     // Default agreement format
     @Override
@@ -28,9 +29,7 @@ public record RentAgreementRecord(
                 "Charge days: " + chargeableDays + "\n" +
                 "Pre-discount charge: " + preDiscountCharge + "\n" +
                 "Discount percent: " + discountPercent + "\n" +
-                // TODO I think this also needs to be passed in
-                // TODO maybe just pass in the price record? Lol.
-                "Discount amount: " + "TODO will be mathified" + "\n" +
+                "Discount amount: " + pricingInfo.discountAmount() + "\n" +
                 "Final charge: " + totalPrice;
     }
 }

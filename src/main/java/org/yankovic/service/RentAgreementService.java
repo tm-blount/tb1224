@@ -8,8 +8,6 @@ import org.yankovic.model.RentAgreementRecord;
 import org.yankovic.model.RentalPricingRecord;
 import org.yankovic.utilities.PricingCalculatorUtils;
 
-import java.time.LocalDateTime;
-
 @Service("rentAgreementService")
 public class RentAgreementService {
     @Autowired
@@ -18,14 +16,11 @@ public class RentAgreementService {
     @Autowired
     private ToolRepository toolRepository;
 
-    // TODO intercept
     public RentAgreementRecord createRentalAgreementForTool(int discount, int numDaysToRent, int toolId, String checkoutDate) {
         // Grab the tool, if possible
         Tool toRent = toolRepository.findById(toolId);
 
         if (toRent != null) {
-            boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
-
             // Calculate the price
             RentalPricingRecord rentalPricingRecord =
                     pricingCalculatorService.getPricingForRental(toRent, discount, numDaysToRent, checkoutDate);
@@ -33,15 +28,15 @@ public class RentAgreementService {
             // Create the RentAgreement
             return new RentAgreementRecord(
                     toRent,
+                    rentalPricingRecord,
                     rentalPricingRecord.totalPrice(),
                     rentalPricingRecord.preDiscountCharge(),
                     rentalPricingRecord.dailyRentalPrice(),
                     numDaysToRent,
                     discount,
                     rentalPricingRecord.chargeableDays(),
-                    // TODO to be fixed along w/pricing
-                    LocalDateTime.now(),
-                    null
+                    PricingCalculatorUtils.formatDateString(checkoutDate),
+                    PricingCalculatorUtils.formatDateString(checkoutDate).plusDays(numDaysToRent)
             );
         }
 

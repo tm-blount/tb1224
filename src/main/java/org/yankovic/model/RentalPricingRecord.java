@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 public record RentalPricingRecord(
         double totalPrice,
         double preDiscountCharge,
-        double discountPercent,
+        int discountPercent,
         double dailyRentalPrice,
         int chargeableDays
 ) {
@@ -28,6 +28,10 @@ public record RentalPricingRecord(
     @Override
     public double dailyRentalPrice() {
         return Double.parseDouble(formatMoney(dailyRentalPrice));
+    }
+
+    public double discountAmount() {
+        return Double.parseDouble(formatMoney((((double) discountPercent / 100) * preDiscountCharge)));
     }
 
     private String formatMoney(double money) {
