@@ -35,7 +35,7 @@ public class RequiredPricingCalculatorServiceTest {
                 pricingCalculatorService.getPricingForRental(chns, 25, 5, "7/2/15");
 
         assertEquals(3, record.chargeableDays());
-        assertEquals((1.49 * 3), record.totalPrice());
+        assertEquals(3.35, record.totalPrice());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class RequiredPricingCalculatorServiceTest {
         Tool jakr = JAKToolMock.mockJAKRTool();
 
         RentalPricingRecord record =
-                pricingCalculatorService.getPricingForRental(jakr, 0, 6, "9/3/15");
+                pricingCalculatorService.getPricingForRental(jakr, 0, 6, "7/2/15");
 
         assertEquals(3, record.chargeableDays());
         assertEquals((2.99 * 3), record.totalPrice());

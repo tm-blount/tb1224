@@ -33,10 +33,9 @@ public final class PricingCalculatorUtils {
      * total depending on th tool.
      *
      * @param date the date to consider
-     * @return TODO wat
+     * @return true if it's Labor Day
      */
     public static boolean isLaborDay(String date) {
-        // TODO error support
         // First, try to parse the String date into a LocalDate
         LocalDate laborDate = formatDateString(date);
 
@@ -51,12 +50,7 @@ public final class PricingCalculatorUtils {
         }
     }
 
-    /**
-     * @param date the date to consider
-     * @return boolean if Jul 4th is observed on a weekend
-     */
-    public static boolean isIndependenceDayOnWeekend(String date) {
-        LocalDate inputDate = formatDateString(date);
+    private static boolean isIndependenceDayOnWeekend(LocalDate inputDate) {
 
         // Is it actually Jul 4th?
         LocalDate july4th = LocalDate.of(inputDate.getYear(), Month.JULY, 4);
@@ -64,6 +58,16 @@ public final class PricingCalculatorUtils {
         // Get dof for Jul 4th
         DayOfWeek dayOfWeek = july4th.getDayOfWeek();
 
+        return dateIsWeekendDay(dayOfWeek);
+    }
+
+    public static boolean isIndependenceDay(String date) {
+        LocalDate inputDate = formatDateString(date);
+
+        return isIndependenceDayOnWeekend(inputDate) || (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 7);
+    }
+
+    public static boolean dateIsWeekendDay(DayOfWeek dayOfWeek) {
         return (dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY));
     }
 

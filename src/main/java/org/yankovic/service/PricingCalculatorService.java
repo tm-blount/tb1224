@@ -6,7 +6,6 @@ import org.yankovic.db.entities.ToolType;
 import org.yankovic.model.RentalPricingRecord;
 import org.yankovic.utilities.PricingCalculatorUtils;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 public class PricingCalculatorService {
     public RentalPricingRecord getPricingForRental(Tool tool, int discount, int numDaysToRent, String checkoutDate) {
         boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
-        boolean independenceDay = PricingCalculatorUtils.isIndependenceDayOnWeekend(checkoutDate);
+        boolean independenceDay = PricingCalculatorUtils.isIndependenceDay(checkoutDate);
 
         // Get checkout date in LocalDate format for ranging further down
         LocalDate formattedCheckoutDate = PricingCalculatorUtils.formatDateString(checkoutDate);
@@ -68,10 +67,9 @@ public class PricingCalculatorService {
             // Hypothetically there can never be < 0 chargeable days but because
             // we are manipulating them here, it's better to be careful.
             if (chargeableDays > 0) {
-                // TODO do we want to offload the weekend thing to the utils?
                 // If this tool is free on weekends, reduce the chargeable days by up to two
                 if (!toolType.isWeekendCharge() &&
-                        ((startDate.getDayOfWeek().equals(DayOfWeek.SATURDAY)) || startDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))) {
+                        (PricingCalculatorUtils.dateIsWeekendDay(startDate.getDayOfWeek()))) {
                     chargeableDays--;
                 }
             }
@@ -85,7 +83,6 @@ public class PricingCalculatorService {
             finalTotal = 0;
         }
         else {
-            // TODO fix me(???!)
             finalTotal = finalTotal - (((double) discount / 100) * preDiscountTotal);
         }
 
