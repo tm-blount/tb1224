@@ -1,4 +1,4 @@
-package org.yankovic.db.entities;
+package org.tb.db.entities;
 
 import jakarta.persistence.*;
 

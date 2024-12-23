@@ -1,4 +1,4 @@
-package org.yankovic.service.validators;
+package org.tb.service.validators;
 
 /**
  * Make this validator an actual class so if there's expansion

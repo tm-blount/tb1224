@@ -1,6 +1,6 @@
-package org.yankovic.utilities;
+package org.tb.utilities;
 
-import org.yankovic.service.validators.RentAgreementValidator;
+import org.tb.service.validators.RentAgreementValidator;
 
 /**
  * Separate the validations into their own utils class, because validations are

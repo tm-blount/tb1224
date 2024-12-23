@@ -1,4 +1,4 @@
-package org.yankovic.model;
+package org.tb.model;
 
 import java.math.RoundingMode;
 import java.text.NumberFormat;

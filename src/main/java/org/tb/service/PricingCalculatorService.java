@@ -1,10 +1,10 @@
-package org.yankovic.service;
+package org.tb.service;
 
 import org.springframework.stereotype.Service;
-import org.yankovic.db.entities.Tool;
-import org.yankovic.db.entities.ToolType;
-import org.yankovic.model.RentalPricingRecord;
-import org.yankovic.utilities.PricingCalculatorUtils;
+import org.tb.db.entities.Tool;
+import org.tb.db.entities.ToolType;
+import org.tb.model.RentalPricingRecord;
+import org.tb.utilities.PricingCalculatorUtils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

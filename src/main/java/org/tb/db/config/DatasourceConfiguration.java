@@ -1,4 +1,4 @@
-package org.yankovic.db.config;
+package org.tb.db.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

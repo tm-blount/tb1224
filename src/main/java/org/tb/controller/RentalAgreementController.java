@@ -1,13 +1,13 @@
-package org.yankovic.controller;
+package org.tb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yankovic.model.RentAgreementRecord;
-import org.yankovic.service.RentAgreementService;
-import org.yankovic.utilities.ValidationUtils;
+import org.tb.model.RentAgreementRecord;
+import org.tb.service.RentAgreementService;
+import org.tb.utilities.ValidationUtils;
 
 @RestController
 public class RentalAgreementController {

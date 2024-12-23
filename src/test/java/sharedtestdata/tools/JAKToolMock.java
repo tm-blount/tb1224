@@ -1,7 +1,7 @@
 package sharedtestdata.tools;
 
-import org.yankovic.db.entities.Tool;
-import org.yankovic.db.entities.ToolType;
+import org.tb.db.entities.Tool;
+import org.tb.db.entities.ToolType;
 
 public class JAKToolMock {
     public static Tool mockJAKDTool() {

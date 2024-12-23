@@ -1,4 +1,4 @@
-package org.yankovic.service.validators;
+package org.tb.service.validators;
 
 public enum ErrorCodes {
     DISCOUNT_OUT_OF_RANGE("Discount must be between 0 - 100"),

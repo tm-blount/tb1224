@@ -1,4 +1,4 @@
-package org.yankovic.utilities;
+package org.tb.utilities;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

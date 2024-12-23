@@ -1,4 +1,4 @@
-package org.yankovic.service.validators;
+package org.tb.service.validators;
 
 /**
  * Instead of validating, for example, during program flow in the PricingCalculatorService

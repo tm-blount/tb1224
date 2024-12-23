@@ -1,6 +1,6 @@
-package org.yankovic.model;
+package org.tb.model;
 
-import org.yankovic.db.entities.Tool;
+import org.tb.db.entities.Tool;
 
 import java.time.LocalDate;
 
