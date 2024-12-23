@@ -36,4 +36,25 @@ build/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Storecompiler.xml
+jarRepositories.xml
+workspace.xml
+vcs.xml
+uiDesigner.xml
+compiler.xml
+encodings.xml
+jarRepositories.xml
+misc.xml
+sbt.xml
+uiDesigner.xml
+vcs.xml
+workspace.xml
+codeStyles/
+compiler.xml
+encodings.xml
+jarRepositories.xml
+misc.xml
+sbt.xml
+uiDesigner.xml
+vcs.xml
+workspace.xml
