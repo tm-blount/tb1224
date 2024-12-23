@@ -65,9 +65,7 @@ public class PricingCalculatorService {
                         }
                     }
                     else if (PricingCalculatorUtils.isIndependenceDay(startDate)) {
-                        if (!toolType.isWeekendCharge()) {
-                            chargeableDays--;
-                        }
+                        chargeableDays--;
                     }
                 }
             }
