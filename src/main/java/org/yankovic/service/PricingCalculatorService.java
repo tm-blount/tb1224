@@ -6,6 +6,7 @@ import org.yankovic.db.entities.ToolType;
 import org.yankovic.model.RentalPricingRecord;
 import org.yankovic.utilities.PricingCalculatorUtils;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 
@@ -25,9 +26,6 @@ public class PricingCalculatorService {
      * @return a RentalPricingRecord representing the financial aspects of the agreement
      */
     public RentalPricingRecord getPricingForRental(Tool tool, int discount, int numDaysToRent, String checkoutDate) {
-        boolean isLaborDay = PricingCalculatorUtils.isLaborDay(checkoutDate);
-        boolean independenceDay = PricingCalculatorUtils.isIndependenceDay(checkoutDate);
-
         // Get checkout date in LocalDate format for ranging further down
         LocalDate formattedCheckoutDate = PricingCalculatorUtils.formatDateString(checkoutDate);
 
@@ -35,13 +33,6 @@ public class PricingCalculatorService {
         int chargeableDays = numDaysToRent;
 
         ToolType toolType = tool.getToolType();
-
-        // Reduce chargeable days when it's a holiday and the tool type
-        // is holiday chargeable
-        if (!toolType.isHolidayCharge() &&
-                (isLaborDay || independenceDay)) {
-            chargeableDays--;
-        }
 
         // Get endDate for this rental because it makes the loop cleaner
         LocalDate endDate = formattedCheckoutDate.plusDays(numDaysToRent);
@@ -55,10 +46,29 @@ public class PricingCalculatorService {
             // Hypothetically there can never be < 0 chargeable days but because
             // we are manipulating them here, it's better to be careful.
             if (chargeableDays > 0) {
+                DayOfWeek dof = startDate.getDayOfWeek();
                 // If this tool is free on weekends, reduce the chargeable days by up to two
                 if (!toolType.isWeekendCharge() &&
-                        (PricingCalculatorUtils.dateIsWeekendDay(startDate.getDayOfWeek()))) {
+                        (PricingCalculatorUtils.dateIsWeekendDay(dof))) {
                     chargeableDays--;
+                }
+
+                if (!toolType.isHolidayCharge()) {
+                    if (PricingCalculatorUtils.isLaborDay(startDate)) {
+                        chargeableDays--;
+                    }
+
+                    // Making an assumption here
+                    if (PricingCalculatorUtils.isIndependenceDayOnWeekend(startDate)) {
+                        if (!toolType.isWeekendCharge()) {
+                            chargeableDays--;
+                        }
+                    }
+                    else if (PricingCalculatorUtils.isIndependenceDay(startDate)) {
+                        if (!toolType.isWeekendCharge()) {
+                            chargeableDays--;
+                        }
+                    }
                 }
             }
         }

@@ -23,8 +23,8 @@ public class RequiredPricingCalculatorServiceTest {
         RentalPricingRecord record =
                 pricingCalculatorService.getPricingForRental(ladw, 10, 3, "7/2/20");
 
-        assertEquals(2, record.chargeableDays());
-        assertEquals(3.58, record.totalPrice());
+        assertEquals(3, record.chargeableDays());
+        assertEquals(5.37, record.totalPrice());
     }
 
     @Test

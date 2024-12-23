@@ -30,35 +30,24 @@ public final class PricingCalculatorUtils {
      * @param date the date to consider
      * @return true if it's Labor Day
      */
-    public static boolean isLaborDay(String date) {
-        // First, try to parse the String date into a LocalDate
-        LocalDate laborDate = formatDateString(date);
-
-        if (laborDate.getMonthValue() != 9) {
+    public static boolean isLaborDay(LocalDate date) {
+        if (date.getMonthValue() != 9) {
             return false;
         }
         else {
-            LocalDate firstMonday = java.time.LocalDate.of(laborDate.getYear(), 9, 1)
+            LocalDate firstMonday = java.time.LocalDate.of(date.getYear(), Month.SEPTEMBER, 1)
                     .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
 
-            return laborDate.equals(firstMonday);
+            return date.equals(firstMonday);
         }
     }
 
-    // TODO WHY'D WE HAVE TO THROW THAT DANG TEA IN THE HARBOR
     public static boolean isIndependenceDayOnWeekend(LocalDate inputDate) {
-        // Is it actually Jul 4th?
-        LocalDate july4th = LocalDate.of(inputDate.getYear(), Month.JULY, 4);
-
-        // Get dof for Jul 4th
-        DayOfWeek dayOfWeek = july4th.getDayOfWeek();
-
-        return dateIsWeekendDay(dayOfWeek);
+        return (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 7) &&
+                dateIsWeekendDay(inputDate.getDayOfWeek());
     }
 
-    public static boolean isIndependenceDay(String date) {
-        LocalDate inputDate = formatDateString(date);
-
+    public static boolean isIndependenceDay(LocalDate inputDate) {
         return isIndependenceDayOnWeekend(inputDate) || (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 7);
     }
 

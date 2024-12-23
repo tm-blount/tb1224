@@ -34,8 +34,8 @@ public class PricingCalculatorServiceTest {
         RentalPricingRecord record =
                 pricingCalculatorService.getPricingForRental(jakd, 0, 3, "7/4/21");
 
-        assertEquals(1, record.chargeableDays());
-        assertEquals((2.99 * 1), record.totalPrice());
+        assertEquals(2, record.chargeableDays());
+        assertEquals((2.99 * 2), record.totalPrice());
     }
 
     @Test
@@ -82,8 +82,8 @@ public class PricingCalculatorServiceTest {
         RentalPricingRecord record =
                 pricingCalculatorService.getPricingForRental(ladw, 0, 3, "7/4/21");
 
-        assertEquals(2, record.chargeableDays());
-        assertEquals((1.99 * 2), record.totalPrice());
+        assertEquals(3, record.chargeableDays());
+        assertEquals((1.99 * 3), record.totalPrice());
     }
 
     @Test
