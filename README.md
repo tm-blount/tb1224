@@ -20,6 +20,8 @@ sort of solution.)
 2. To run a single set, right-click on the file and choose `run`
 3. To run a single test, right-click th name of the test and choose `run`
 
+It is also possible to use Swagger, located at `http://localhost:8080/swagger-ui/index.html`.
+
 # Concerns, Questions, and Looking Forward
 
 This is, of course, a demo, and therefore has issues that would need to be addressed
@@ -63,12 +65,9 @@ specs for the controller layer.
 
 There are a few extra tests for the PricingCalculatorService beyond the required test suite.
 
-As this is a demo, good code coverage isn't the greatest concern, but certain there should be more unit tests,
+As this is a demo, good code coverage isn't the greatest concern, but certainly there should be more unit tests,
 and there should also be a mock, in-memory DB, etc for the unit tests, which currently use the live database. This
 could obviously be an issue if the data changes for some reason, or if the application is changed to update data itself.
-
-Furthermore, it would be nice to have Swagger (for which time ran out) and perhaps some functional tests that would run
-in a pipeline.
 
 ## 5. Extensibility vs YAGNI
 
@@ -83,5 +82,11 @@ out further depending on the specs and needs of the business. For example, `erro
 pieces of this demo.
 
 For the demo, it could be argued the Entity classes should be DTOs, since Entity classes are intended to be used for
-inserts, updates, etc, while DTOs are sufficient for reading. They are also easier to query, join, etc. However, they
+inserts, updates, etc., while DTOs are sufficient for reading. They are also easier to query, join, etc. However, they
 would not be useful for long in any significant application, so Entities were used.
+
+## 6. Swagger Improvements
+
+Swagger was re-added late to the demo and therefore niceties such as customizing the OpenAPI page, adding the models,
+etc. were not possible. While not entirely necessary, these are QoL improvements for the people who use the tool and
+would be on the list of things to improve, albeit at lower priority.
