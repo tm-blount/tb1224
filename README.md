@@ -18,7 +18,7 @@ sort of solution.)
 
 1. To run the entire suite, right-click on `test/java` and choose `run`
 2. To run a single set, right-click on the file and choose `run`
-3. To run a single test, right-click th name of the test and choose `run`
+3. To run a single test, right-click the name of the test and choose `run`
 
 It is also possible to use Swagger, located at `http://localhost:8080/swagger-ui/index.html`.
 
