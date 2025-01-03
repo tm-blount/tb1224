@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tb.db.ToolRepository;
 import org.tb.db.entities.Tool;
+import org.tb.errorhandling.exceptions.ToolNotFoundException;
 import org.tb.model.RentAgreementRecord;
 import org.tb.model.RentalPricingRecord;
 import org.tb.utilities.PricingCalculatorUtils;
+
+import static org.tb.errorhandling.ErrorCodes.TOOL_NOT_FOUND;
 
 @Service("rentAgreementService")
 public class RentAgreementService {
@@ -25,7 +28,7 @@ public class RentAgreementService {
      * @param checkoutDate  the checkout date for the rental
      * @return a RentAgreementRecord representing all aspects of the rental
      */
-    public RentAgreementRecord createRentalAgreementForTool(int discount, int numDaysToRent, int toolId, String checkoutDate) {
+    public RentAgreementRecord createRentalAgreementForTool(int discount, int numDaysToRent, int toolId, String checkoutDate) throws ToolNotFoundException {
         // Grab the tool, if possible
         Tool toRent = toolRepository.findById(toolId);
 
@@ -43,7 +46,8 @@ public class RentAgreementService {
                     PricingCalculatorUtils.formatDateString(checkoutDate).plusDays(numDaysToRent)
             );
         }
-
-        return null;
+        else {
+            throw new ToolNotFoundException(TOOL_NOT_FOUND.getError());
+        }
     }
 }

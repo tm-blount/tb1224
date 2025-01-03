@@ -3,6 +3,9 @@ package org.tb.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.tb.errorhandling.exceptions.DiscountOutOfRangeException;
+import org.tb.errorhandling.exceptions.RentalDaysOutOfRangeException;
+import org.tb.errorhandling.exceptions.ToolNotFoundException;
 import org.tb.model.RentAgreementRecord;
 import org.tb.service.RentAgreementService;
 import org.tb.utilities.ValidationUtils;
@@ -17,6 +20,7 @@ public class RentalAgreementController {
      * <br/>
      * Specs: print to console
      * Added: plain text to the page for more convenient debugging
+     * Added: some error-handling/prettifying
      * <br/>
      * To force JSON: remove the produces element as well as the @ResponseBody
      * annotation. Best practice is to also change the return type to RentAgreementRecord,
@@ -36,19 +40,36 @@ public class RentalAgreementController {
             @RequestParam("numDaysToRent") int numDaysToRent,
             @RequestParam("checkoutDate") String checkoutDate
     ) {
-        if (ValidationUtils.rentalAgreementIsValid(discount, numDaysToRent)) {
-            RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
-                    discount,
-                    numDaysToRent,
-                    toolId,
-                    checkoutDate
-            );
+        boolean valid = false;
+        String errorMsg = "";
 
-            System.out.println(record);
-
-            return record.toString();
+        // Validate
+        try {
+            valid = ValidationUtils.rentalAgreementIsValid(discount, numDaysToRent);
+        } catch (DiscountOutOfRangeException | RentalDaysOutOfRangeException ex) {
+            errorMsg = ex.getMessage();
         }
 
-        return null;
+        // If valid, try to get the rent agreement record generated for this particular
+        // request
+        if (valid) {
+            try {
+                RentAgreementRecord record = rentAgreementService.createRentalAgreementForTool(
+                        discount,
+                        numDaysToRent,
+                        toolId,
+                        checkoutDate
+                );
+
+                System.out.println(record);
+
+                return record.toString();
+            } catch (ToolNotFoundException tnfex) {
+                return "{\"Error: \"Tool not found\"}";
+            }
+        }
+        else {
+            return "{\"Error: \"" + errorMsg + "\"}";
+        }
     }
 }

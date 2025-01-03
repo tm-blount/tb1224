@@ -27,10 +27,25 @@ public class RequiredRentAgreementControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("", result.getResponse().getContentAsString());
+        assertEquals("{\"Error: \"Discount must be between 0 - 100\"}", result.getResponse().getContentAsString());
     }
 
-    // Not required, but might as well add it
+    /**
+     * NOTE: not required test cases, added here since it's where they belong
+     */
+
+    @Test
+    public void testToolNotFound() throws Exception {
+        MvcResult result = mockMvc.perform(get("/rental/displayAgreement/{toolId}", 100)
+                        .param("discount", String.valueOf(0))
+                        .param("numDaysToRent", String.valueOf(5))
+                        .param("checkoutDate", "9/3/15"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertEquals("{\"Error: \"Tool not found\"}", result.getResponse().getContentAsString());
+    }
+
     @Test
     public void testInvalidRentalDays() throws Exception {
         MvcResult result = mockMvc.perform(get("/rental/displayAgreement/{toolId}", 5)
@@ -40,7 +55,7 @@ public class RequiredRentAgreementControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        assertEquals("", result.getResponse().getContentAsString());
+        assertEquals("{\"Error: \"A tool must be rented at least one day\"}", result.getResponse().getContentAsString());
     }
 }
 

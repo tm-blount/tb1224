@@ -1,4 +1,7 @@
-package org.tb.service.validators;
+package org.tb.errorhandling.validators;
+
+import org.tb.errorhandling.ErrorCodes;
+import org.tb.errorhandling.exceptions.RentalDaysOutOfRangeException;
 
 /**
  * Make this validator an actual class so if there's expansion
@@ -13,11 +16,9 @@ public class RentalDayValidator {
      * @param numDays days to rent this tool
      * @return true if numDays >= 1
      */
-    public boolean validateRentalDay(int numDays) {
+    public static boolean validateRentalDay(int numDays) throws RentalDaysOutOfRangeException {
         if (numDays < 1) {
-            System.out.println(ErrorCodes.RENTAL_DAYS_OUT_OF_RANGE.getError());
-
-            return false;
+            throw new RentalDaysOutOfRangeException(ErrorCodes.RENTAL_DAYS_OUT_OF_RANGE.getError());
         }
 
         return true;

@@ -1,4 +1,8 @@
-package org.tb.service.validators;
+package org.tb.errorhandling.validators;
+
+import org.tb.errorhandling.exceptions.DiscountOutOfRangeException;
+
+import static org.tb.errorhandling.ErrorCodes.DISCOUNT_OUT_OF_RANGE;
 
 /**
  * Make this validator an actual class so if there's expansion
@@ -12,11 +16,9 @@ public class DiscountValidator {
      * @param discount the discount to apply
      * @return true if the discount is between 1 - 100 percent
      */
-    public static boolean validateDiscount(int discount) {
+    public static boolean validateDiscount(int discount) throws DiscountOutOfRangeException {
         if (discount < 0 || discount > 100) {
-            System.out.println(ErrorCodes.DISCOUNT_OUT_OF_RANGE.getError());
-
-            return false;
+            throw new DiscountOutOfRangeException(DISCOUNT_OUT_OF_RANGE.getError());
         }
 
         return true;

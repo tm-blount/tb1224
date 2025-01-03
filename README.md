@@ -40,9 +40,15 @@ during design or even PR.
 
 ## 2. Error-Handling
 
-Currently, if a Tool does not exist but is queried for, an exception will be thrown. How that would be handled depends a
-bit on the specs, but it would probably start with a custom Exception. Whether that Exception is then passed up as-is for
-FE to handle or transformed into a JSON message depends on the specs.
+Originally, if a tool could not be found, an exception was thrown, which didn't look very good on console. Exactly how
+the exception would be handled depends a bit on the business logic, so I took some liberties. It could definitely be
+handled a little more gracefully (I would most likely move validation down a layer if I hadn't run out of time) but will
+do for a demo.
+
+Messaging for validation and not-found tools could be better but at least the error output will show up cleanly on
+Swagger, webpage, etc.
+
+Null-safety was also a consideration for the rent agreement service when a tool couldn't be found.
 
 ## 3. Scalability
 
@@ -60,9 +66,6 @@ concerns about why there's no, for example, connection pooling starts becoming h
 `application.properties` is not the best place for username and password. Username might be OK if it's highly secured
 but passwords should be taken from elsewhere like, for example, Vault, to (a) ensure security and (b) make it easy to
 change the password on the fly (restart the app instead of completely redeploying it).
-
-There could be more null-safety in the PricingCalculatorService as well. How it's handled would depend a bit on the
-specs for the controller layer.
 
 The database itself is somewhat thrown together just enough to be serviceable for the demo. The structure would warrant
 a little more attention if this was expected to be production-grade (or a demo ready to be turned into something
@@ -85,8 +88,8 @@ objects, but simultaneously wants to be extensible, which does require an archit
 accommodate expansions, changes, bug fixes, etc.
 
 Controller, db, model, service, and utilities are probably the baseline for extensibility, and could be further broken
-out further depending on the specs and needs of the business. For example, `error-handling` and `config` were early
-pieces of this demo.
+out further depending on the specs and needs of the business. For example, `errorhandling` and `config` were early
+pieces of this demo, with only `errorhandling` surviving refactors in this case.
 
 For the demo, it could be argued the Entity classes should be DTOs, since Entity classes are intended to be used for
 inserts, updates, etc., while DTOs are sufficient for reading. They are also easier to query, join, etc. However, they
@@ -97,3 +100,9 @@ would not be useful for long in any significant application, so Entities were us
 Swagger was re-added late to the demo and therefore niceties such as customizing the OpenAPI page, adding the models,
 etc. were not possible. While not entirely necessary, these are QoL improvements for the people who use the tool and
 would be on the list of things to improve, albeit at lower priority.
+
+## 8. Why is the DB Called Yankovic's Tools?
+
+https://www.youtube.com/watch?v=DFI6cV9slfI
+
+(A production-grade DB would most likely be or include the business's name or something similar.)
