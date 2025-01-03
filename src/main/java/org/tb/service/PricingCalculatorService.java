@@ -40,33 +40,37 @@ public class PricingCalculatorService {
         // Iterate through all the days to rent and reduce chargeable
         // days according to business rules
         for (LocalDate startDate = formattedCheckoutDate;
-             startDate.isBefore(endDate);
+             startDate.isBefore(endDate); // careful, does not need to be end-inclusive
              startDate = startDate.plusDays(1)) {
-
             // Hypothetically there can never be < 0 chargeable days but because
             // we are manipulating them here, it's better to be careful.
             if (chargeableDays > 0) {
                 DayOfWeek dof = startDate.getDayOfWeek();
+
+
+                // If this tool is not chargeable on holidays, reduce the chargeable days
+                if (!toolType.isHolidayCharge()) {
+                    if (PricingCalculatorUtils.isLaborDay(startDate) ||
+                            PricingCalculatorUtils.isIndependenceDay(startDate)) {
+                        chargeableDays--;
+                        // No sense in going further
+                        continue;
+                    }
+
+                    if (PricingCalculatorUtils.isIndependenceDayOnWeekend(startDate)) {
+                        // Special case
+                        if (!toolType.isWeekendCharge()) {
+                            chargeableDays--;
+                            // Stop here so weekend days don't get counted twice
+                            continue;
+                        }
+                    }
+                }
+
                 // If this tool is free on weekends, reduce the chargeable days by up to two
                 if (!toolType.isWeekendCharge() &&
                         (PricingCalculatorUtils.dateIsWeekendDay(dof))) {
                     chargeableDays--;
-                }
-
-                if (!toolType.isHolidayCharge()) {
-                    if (PricingCalculatorUtils.isLaborDay(startDate)) {
-                        chargeableDays--;
-                    }
-
-                    // Making an assumption here
-                    if (PricingCalculatorUtils.isIndependenceDayOnWeekend(startDate)) {
-                        if (!toolType.isWeekendCharge()) {
-                            chargeableDays--;
-                        }
-                    }
-                    else if (PricingCalculatorUtils.isIndependenceDay(startDate)) {
-                        chargeableDays--;
-                    }
                 }
             }
         }

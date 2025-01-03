@@ -28,20 +28,23 @@ This is, of course, a demo, and therefore has issues that would need to be addre
 before this project could be a true "greenfield" project. Below are some thoughts, intended
 to anticipate questions, but not avoid further discussion.
 
-## 1. Specs for Independence Day/Jul 4th/Holidays in General
+## 1. Chargeable Days Minus Vs Plus
 
-If a holiday occurs on a weekend with a tool that has a weekend charge, but no holiday charge,
-should that day be counted in `chargeableDays`?
+The current approach is to assume chargeable days equals number of days to rent the tool, and then subtract
+based on holidays or weekends.
 
-If a holiday occurs on a weekend and is subsequently observed on a weekday, doesn't this
-mean it's a weekday charge? And if not, then would there be a `chargeableDays` under the following:
+This might be a little harder to parse several months from now and might warrant flipping the minus to a plus
+instead. The minus approach was used because it felt more intuitive to me personally. Flipping to a plus might
+be more intuitive for a team, however, especially for a long-term product. It would certainly bear discussion
+during design or even PR.
 
-    - tool has holiday charge
-    - tool has weekend charge
+## 2. Error-Handling
 
-with the trick consisting of not essentially over- or under-charging?
+Currently, if a Tool does not exist but is queried for, an exception will be thrown. How that would be handled depends a
+bit on the specs, but it would probably start with a custom Exception. Whether that Exception is then passed up as-is for
+FE to handle or transformed into a JSON message depends on the specs.
 
-## 2. Scalability
+## 3. Scalability
 
 Currently, this demo isn't very scalable. Spring Boot JPA/Hibernate need tweaking out-of-the-box to ensure,
 for example, that Entities aren't being queried while the View is being calculated. Furthermore, the query
@@ -52,7 +55,7 @@ This isn't even considering the fact the app is a demo meant to run well on a si
 Transaction integrity should be fine even with a couple dozen users on the app at once, but more than that and
 concerns about why there's no, for example, connection pooling starts becoming highly relevant.
 
-## 3. Security
+## 4. Security
 
 `application.properties` is not the best place for username and password. Username might be OK if it's highly secured
 but passwords should be taken from elsewhere like, for example, Vault, to (a) ensure security and (b) make it easy to
@@ -61,7 +64,11 @@ change the password on the fly (restart the app instead of completely redeployin
 There could be more null-safety in the PricingCalculatorService as well. How it's handled would depend a bit on the
 specs for the controller layer.
 
-## 4. Missing Tests
+The database itself is somewhat thrown together just enough to be serviceable for the demo. The structure would warrant
+a little more attention if this was expected to be production-grade (or a demo ready to be turned into something
+production-grade.)
+
+## 5. Missing Tests
 
 There are a few extra tests for the PricingCalculatorService beyond the required test suite.
 
@@ -69,7 +76,7 @@ As this is a demo, good code coverage isn't the greatest concern, but certainly 
 and there should also be a mock, in-memory DB, etc for the unit tests, which currently use the live database. This
 could obviously be an issue if the data changes for some reason, or if the application is changed to update data itself.
 
-## 5. Extensibility vs YAGNI
+## 6. Extensibility vs YAGNI
 
 (YAGNI = "You aren't gonna need it")
 
@@ -85,7 +92,7 @@ For the demo, it could be argued the Entity classes should be DTOs, since Entity
 inserts, updates, etc., while DTOs are sufficient for reading. They are also easier to query, join, etc. However, they
 would not be useful for long in any significant application, so Entities were used.
 
-## 6. Swagger Improvements
+## 7. Swagger Improvements
 
 Swagger was re-added late to the demo and therefore niceties such as customizing the OpenAPI page, adding the models,
 etc. were not possible. While not entirely necessary, these are QoL improvements for the people who use the tool and

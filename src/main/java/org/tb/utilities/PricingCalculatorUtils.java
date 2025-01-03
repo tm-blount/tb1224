@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.EnumSet;
-import java.util.Set;
 
 /**
  * This is one of those classes that might end up renamed
@@ -16,7 +14,6 @@ import java.util.Set;
  * A utility used for various (mainly) pricing-related concerns
  */
 public final class PricingCalculatorUtils {
-    private static final Set<DayOfWeek> weekendSet = EnumSet.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
 
     private PricingCalculatorUtils() {

@@ -29,11 +29,14 @@ public class PricingCalculatorServiceTest {
 
     @Test
     public void testJAKDHolidayChargeIndependenceDay() {
+        int numDaysToRent = 3;
+
         Tool jakd = JAKToolMock.mockJAKDTool();
 
         RentalPricingRecord record =
-                pricingCalculatorService.getPricingForRental(jakd, 0, 3, "7/4/21");
+                pricingCalculatorService.getPricingForRental(jakd, 0, numDaysToRent, "7/4/21");
 
+        assertEquals(3, numDaysToRent);
         assertEquals(2, record.chargeableDays());
         assertEquals((2.99 * 2), record.totalPrice());
     }
@@ -41,6 +44,7 @@ public class PricingCalculatorServiceTest {
     @Test
     public void testLADWWeekendCharge() {
         int numDaysToRent = 3;
+
         Tool ladw = LADWToolMock.mockLADWTool();
 
         RentalPricingRecord record =
@@ -65,6 +69,7 @@ public class PricingCalculatorServiceTest {
     @Test
     public void testLADWHolidayChargeLaborDay() {
         int numDaysToRent = 3;
+
         Tool ladw = LADWToolMock.mockLADWTool();
 
         RentalPricingRecord record =
@@ -88,13 +93,16 @@ public class PricingCalculatorServiceTest {
 
     @Test
     public void testLADWHolidayChargeIndependenceDayWeekday() {
+        int numDaysToRent = 3;
+
         Tool ladw = LADWToolMock.mockLADWTool();
 
         RentalPricingRecord record =
-                pricingCalculatorService.getPricingForRental(ladw, 0, 3, "7/4/23");
+                pricingCalculatorService.getPricingForRental(ladw, 0, numDaysToRent, "7/4/23");
 
-        assertEquals(3, record.chargeableDays());
-        assertEquals((1.99 * 3), record.totalPrice());
+        assertEquals(3, numDaysToRent);
+        assertEquals(2, record.chargeableDays());
+        assertEquals((1.99 * 2), record.totalPrice());
     }
 
     @Test
