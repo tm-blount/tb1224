@@ -43,12 +43,13 @@ public final class PricingCalculatorUtils {
     }
 
     public static boolean isIndependenceDayOnWeekend(LocalDate inputDate) {
-        return (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 7) &&
+        return checkIndependenceDayMonth(inputDate) &&
                 dateIsWeekendDay(inputDate.getDayOfWeek());
     }
 
     public static boolean isIndependenceDay(LocalDate inputDate) {
-        return isIndependenceDayOnWeekend(inputDate) || (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 7);
+        return checkIndependenceDayMonth(inputDate) &&
+                !dateIsWeekendDay(inputDate.getDayOfWeek());
     }
 
     public static boolean dateIsWeekendDay(DayOfWeek dayOfWeek) {
@@ -57,5 +58,9 @@ public final class PricingCalculatorUtils {
 
     public static LocalDate formatDateString(String date) {
         return LocalDate.parse(date, formatter);
+    }
+
+    private static boolean checkIndependenceDayMonth(LocalDate inputDate) {
+        return (inputDate.getMonth().equals(Month.JULY) && inputDate.getDayOfMonth() == 4);
     }
 }
